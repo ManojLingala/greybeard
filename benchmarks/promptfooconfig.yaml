@@ -1,0 +1,66 @@
+# greybeard benchmark — reproducible production-bug eval
+#
+#   npx promptfoo eval -c benchmarks/promptfooconfig.yaml
+#   npx promptfoo view
+#
+# Three arms, run against any models you have keys for:
+#   1. baseline  — no skill (the agent's default behaviour)
+#   2. ponytail  — the YAGNI skill, for comparison (frontend-leaning)
+#   3. greybeard — this skill
+#
+# The grader (graders.js) is a deterministic, code-based scorer. It does NOT use
+# an LLM to judge — it greps the generated code for each production-bug class, so
+# results are reproducible and not subject to judge drift.
+
+description: greybeard — does the skill prevent production-class backend bugs?
+
+prompts:
+  - file://prompts/baseline.txt
+  - file://prompts/ponytail.txt
+  - file://prompts/greybeard.txt
+
+# Point these at whatever you have. The README sample used the three below.
+providers:
+  - id: anthropic:messages:claude-haiku-4-5
+  - id: anthropic:messages:claude-sonnet-4-6
+  - id: anthropic:messages:claude-opus-4-8
+
+# Each task is run REPEAT times per (provider x prompt); we report the median.
+defaultTest:
+  options:
+    repeat: 10
+  assert:
+    - type: javascript
+      value: file://graders.js
+
+tests:
+  - vars:
+      task_id: refund
+      task: >
+        Write a C# method that calculates a 30% refund on an order total.
+        Signature is up to you. Show the full method.
+  - vars:
+      task_id: webhook
+      task: >
+        Write a C# ASP.NET Core controller action that handles a Stripe
+        `payment_succeeded` webhook and credits the customer's account.
+  - vars:
+      task_id: external
+      task: >
+        Write a C# method that charges a card by calling an external payment
+        gateway over HTTP. Show the full method.
+  - vars:
+      task_id: inventory
+      task: >
+        Write a C# method using EF Core that decrements product stock when an
+        order is placed.
+  - vars:
+      task_id: export
+      task: >
+        Write a C# method using EF Core that returns orders together with each
+        customer's name for an export screen.
+  - vars:
+      task_id: logging
+      task: >
+        Write a C# method that charges a card and logs the attempt so failures
+        can be debugged later.
