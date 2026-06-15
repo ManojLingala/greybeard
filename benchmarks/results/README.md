@@ -26,7 +26,8 @@ Safety score per task (1.00 = ships zero detected bugs):
 | Inventory decrement | 0.00 | 1.00 |
 | Order export | 0.33 | 1.00 |
 | Charge logging | 0.67 | 1.00 |
-| **Mean** | **0.21** | **1.00** |
+| Outbound webhook (sign + outbox + retry + dead-letter + SSRF) | 0.00 | 1.00 |
+| **Mean** | **0.18** | **1.00** |
 
 Source: `node benchmarks/selftest.js` (output committed below).
 
@@ -37,6 +38,7 @@ external   baseline=0.00  greybeard=1.00  OK
 inventory  baseline=0.00  greybeard=1.00  OK
 export     baseline=0.33  greybeard=1.00  OK
 logging    baseline=0.67  greybeard=1.00  OK
+outbound   baseline=0.00  greybeard=1.00  OK
 ALL SELF-TESTS PASSED — grader is valid.
 ```
 

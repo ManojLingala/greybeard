@@ -11,6 +11,7 @@ Before writing backend code, walk this ladder and stop at the first rung that ap
 1. Money?            → integer minor-units, never float. Explicit rounding. Currency travels with the amount.
 2. Mutation?         → idempotency key. Safe to retry. Exactly-once effect.
    Inbound webhook?  → verify signature on the RAW body, reject replays, don't trust payload amounts, reconcile out-of-band.
+   Outbound webhook? → sign payloads, persist to an outbox, retry with backoff, dead-letter, guard against SSRF.
 3. External call?    → timeout always. Retry with jittered backoff. Circuit breaker.
 4. Concurrency?      → explicit transaction boundary. No lost updates.
 5. Reads a list?     → pagination. No N+1, no unbounded fan-out.

@@ -67,6 +67,25 @@ Stripe is the worked example in [examples/](examples/), but every rung is
 provider-agnostic — the same discipline applies to GitHub, Square, Twilio, or
 any signed callback.
 
+## Outbound webhooks (when YOU are the provider)
+
+The moment you send webhooks, you owe your consumers the same guarantees you
+wanted from Stripe. Sending an HTTP POST and hoping is not a webhook system. For
+any outbound webhook the agent enforces:
+
+```
+O1. Sign every payload    → HMAC the body with the subscriber's secret; send signature + timestamp headers so they can verify (and reject replays).
+O2. Persist, then deliver → write the event to an outbox first, deliver from there. Never lose an event because the HTTP call failed.
+O3. Retry with backoff    → exponential backoff + jitter, capped attempts. A consumer being down for an hour must not drop their events.
+O4. Dead-letter           → after max retries, park it in a DLQ and alert/expose it. Failure is visible, never silent.
+O5. Stable event id        → every delivery carries a unique, stable id so consumers can dedupe (they will be retried).
+O6. Timeout + SSRF guard   → short timeout per attempt; validate/allowlist the target URL so a subscriber URL can't point at your internal network.
+O7. Don't block the caller → enqueue and deliver async; never make the user's request wait on a third party's endpoint.
+```
+
+Inbound and outbound are mirror images: verify what you receive, sign and
+guarantee what you send.
+
 ## Non-negotiables (never on the chopping block)
 
 No matter how small the task, the agent never skips these:
@@ -77,6 +96,7 @@ No matter how small the task, the agent never skips these:
 - **No secrets in logs, errors, or traces.**
 - **Webhook signature verification against the raw body** — never disabled, never against a parsed body.
 - **Out-of-band reconciliation for anything money/state critical** — webhook delivery is best-effort, not a source of truth.
+- **Outbound webhooks: sign payloads, persist before delivering, retry, dead-letter** — never fire-and-forget, never lose an event.
 - **Data-loss safety** — no destructive op without a recovery path.
 
 Everything else (caching, abstraction, extra layers) is optional and earns its

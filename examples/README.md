@@ -11,5 +11,6 @@ Real bugs a no-skill agent ships, and what greybeard does instead. Each one is a
 | 4 | [Decrement inventory](04-concurrency.md) | Lost update under concurrency; oversell | optimistic concurrency / row lock |
 | 5 | [Export orders](05-pagination-nplus1.md) | Loads every row + N+1 queries; OOM at scale | pagination + projection, single query |
 | 6 | [Log a charge](06-logging-secrets.md) | Card number / token written to logs | structured log, secrets redacted |
+| 7 | [Outbound webhooks ⭐ flagship](07-outbound-webhooks.md) | Fire-and-forget: unsigned, lost on failure, no retry, SSRF | sign + outbox + retry/backoff + dead-letter + SSRF guard |
 
 > All examples are C#/.NET flavored, but every rung is language-agnostic.
