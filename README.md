@@ -53,21 +53,24 @@ a handler that demos fine but is **forgeable, replayable, double-credits, and
 silently drops payments**. greybeard verifies the signature against the raw body,
 rejects replays, processes idempotently, refuses to trust the payload amount, and
 adds the **out-of-band reconciliation sweep** that catches the webhooks Stripe
-never delivered. More survivors in [examples/](examples/) — missing timeouts,
+never delivered. Its mirror image is the [outbound webhook sender](examples/07-outbound-webhooks.md)
+— when *you* are the provider, greybeard signs every payload, persists to an
+outbox before delivering, retries with backoff, dead-letters on give-up, and
+guards against SSRF. More survivors in [examples/](examples/) — missing timeouts,
 lost-update overselling, N+1 export crashes, secrets in logs.
 
 ## Numbers
 
-Six everyday backend tasks (refund, payment webhook, gateway call, inventory
-decrement, order export, charge logging), graded by a **deterministic, code-based
+Seven everyday backend tasks (refund, inbound webhook, gateway call, inventory
+decrement, order export, charge logging, outbound webhook), graded by a **deterministic, code-based
 scorer** — not an LLM judge, so it can't drift. Score = fraction of
 production-bug checks passed (1.00 = ships zero detected bugs).
 
 <p align="center">
-  <img src="assets/benchmark.svg" width="820" alt="greybeard scores 1.00 on every task; the no-skill baseline ships bugs on all six">
+  <img src="assets/benchmark.svg" width="820" alt="greybeard scores 1.00 on every task; the no-skill baseline ships bugs on all seven">
 </p>
 
-The no-skill baseline averages **0.22** safe; greybeard averages **1.00** on the
+The no-skill baseline averages **0.18** safe; greybeard averages **1.00** on the
 validated grader self-test. Reproduce it yourself:
 
 ```bash
@@ -86,6 +89,7 @@ that applies:
 1. Money?            → integer minor-units, never float. Explicit rounding.
 2. Mutation?         → idempotency key. Safe to retry.
    Inbound webhook?  → verify signature on the RAW body, reject replays, don't trust the payload, reconcile out-of-band.
+   Outbound webhook? → sign payloads, persist to an outbox, retry with backoff, dead-letter, guard against SSRF.
 3. External call?    → timeout always. Retry + jittered backoff. Circuit breaker.
 4. Concurrency?      → explicit transaction. No lost updates.
 5. Reads a list?     → pagination. No N+1, no unbounded fan-out.

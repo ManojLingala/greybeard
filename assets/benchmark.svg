@@ -12,36 +12,41 @@
 <text x="50" y="144.0" fill="#8b949e" font-size="11" text-anchor="end">0.75</text>
 <line x1="60" y1="70.0" x2="830" y2="70.0" stroke="#21262d" stroke-width="1"/>
 <text x="50" y="74.0" fill="#8b949e" font-size="11" text-anchor="end">1.00</text>
-<rect x="80.5" y="350.0" width="38.5" height="0.0" fill="#f85149" rx="3"/>
-<text x="99.8" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
-<rect x="129.3" y="70.0" width="38.5" height="280.0" fill="#3fb950" rx="3"/>
-<text x="148.6" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
-<text x="124.2" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Refund</text>
-<rect x="208.9" y="280.0" width="38.5" height="70.0" fill="#f85149" rx="3"/>
-<text x="228.1" y="274.0" fill="#f85149" font-size="11" text-anchor="middle">0.25</text>
-<rect x="257.6" y="70.0" width="38.5" height="280.0" fill="#3fb950" rx="3"/>
-<text x="276.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
-<text x="252.5" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Webhook</text>
-<rect x="337.2" y="350.0" width="38.5" height="0.0" fill="#f85149" rx="3"/>
-<text x="356.5" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
-<rect x="386.0" y="70.0" width="38.5" height="280.0" fill="#3fb950" rx="3"/>
-<text x="405.2" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
-<text x="380.8" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">External</text>
-<rect x="465.5" y="350.0" width="38.5" height="0.0" fill="#f85149" rx="3"/>
-<text x="484.8" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
-<rect x="514.3" y="70.0" width="38.5" height="280.0" fill="#3fb950" rx="3"/>
-<text x="533.6" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
-<text x="509.2" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Inventory</text>
-<rect x="593.9" y="257.6" width="38.5" height="92.4" fill="#f85149" rx="3"/>
-<text x="613.1" y="251.6" fill="#f85149" font-size="11" text-anchor="middle">0.33</text>
-<rect x="642.6" y="70.0" width="38.5" height="280.0" fill="#3fb950" rx="3"/>
-<text x="661.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
-<text x="637.5" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Export</text>
-<rect x="722.2" y="162.4" width="38.5" height="187.6" fill="#f85149" rx="3"/>
-<text x="741.5" y="156.4" fill="#f85149" font-size="11" text-anchor="middle">0.67</text>
-<rect x="771.0" y="70.0" width="38.5" height="280.0" fill="#3fb950" rx="3"/>
-<text x="790.2" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
-<text x="765.8" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Logging</text>
+<rect x="77.6" y="350.0" width="33.0" height="0.0" fill="#f85149" rx="3"/>
+<text x="94.1" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
+<rect x="119.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
+<text x="135.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
+<text x="115.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Refund</text>
+<rect x="187.6" y="280.0" width="33.0" height="70.0" fill="#f85149" rx="3"/>
+<text x="204.1" y="274.0" fill="#f85149" font-size="11" text-anchor="middle">0.25</text>
+<rect x="229.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
+<text x="245.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
+<text x="225.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Webhook</text>
+<rect x="297.6" y="350.0" width="33.0" height="0.0" fill="#f85149" rx="3"/>
+<text x="314.1" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
+<rect x="339.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
+<text x="355.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
+<text x="335.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">External</text>
+<rect x="407.6" y="350.0" width="33.0" height="0.0" fill="#f85149" rx="3"/>
+<text x="424.1" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
+<rect x="449.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
+<text x="465.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
+<text x="445.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Inventory</text>
+<rect x="517.6" y="257.6" width="33.0" height="92.4" fill="#f85149" rx="3"/>
+<text x="534.1" y="251.6" fill="#f85149" font-size="11" text-anchor="middle">0.33</text>
+<rect x="559.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
+<text x="575.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
+<text x="555.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Export</text>
+<rect x="627.6" y="162.4" width="33.0" height="187.6" fill="#f85149" rx="3"/>
+<text x="644.1" y="156.4" fill="#f85149" font-size="11" text-anchor="middle">0.67</text>
+<rect x="669.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
+<text x="685.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
+<text x="665.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Logging</text>
+<rect x="737.6" y="350.0" width="33.0" height="0.0" fill="#f85149" rx="3"/>
+<text x="754.1" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
+<rect x="779.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
+<text x="795.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
+<text x="775.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Outbound</text>
 <line x1="60" y1="350.0" x2="830" y2="350.0" stroke="#8b949e" stroke-width="1.5"/>
 <rect x="580" y="34" width="12" height="12" fill="#f85149" rx="2"/>
 <text x="598" y="44" fill="#e6edf3" font-size="12">no skill (baseline)</text>

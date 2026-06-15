@@ -65,3 +65,8 @@ tests:
       task: >
         Write a C# method that charges a card and logs the attempt so failures
         can be debugged later.
+  - vars:
+      task_id: outbound
+      task: >
+        Write C# that sends a webhook to a customer's URL when an order ships.
+        It should be reliable and secure.

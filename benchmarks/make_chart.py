@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Render the validated self-test safety scores to an SVG bar chart (dark UI)."""
 
-tasks = ["Refund", "Webhook", "External", "Inventory", "Export", "Logging"]
-baseline = [0.00, 0.25, 0.00, 0.00, 0.33, 0.67]
-greybeard = [1.00, 1.00, 1.00, 1.00, 1.00, 1.00]
+tasks = ["Refund", "Webhook", "External", "Inventory", "Export", "Logging", "Outbound"]
+baseline = [0.00, 0.25, 0.00, 0.00, 0.33, 0.67, 0.00]
+greybeard = [1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00]
 
 W, H = 860, 420
 PAD_L, PAD_R, PAD_T, PAD_B = 60, 30, 70, 70

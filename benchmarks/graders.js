@@ -51,6 +51,15 @@ const CHECKS = {
     ['no_raw_card',        c => !has(c, /CardNumber|\bCvv\b|ApiToken/i) || has(c, /Last4|\*{2,}|Redact/i)],
     ['structured',         c => has(c, /LogInformation|LogError|correlation|Corr/i)],
   ],
+  // 7. Outbound webhook: must sign, persist (outbox), retry/backoff + dead-letter, guard the URL, not block.
+  outbound: [
+    ['signed',           c => has(c, /HMAC|ComputeSignature|Signature|sign/i)],
+    ['outbox_or_persist',c => has(c, /Outbox|outbox|persist|_db\.\w*Add|SaveChanges/i)],
+    ['retry_backoff',    c => has(c, /retry|backoff|Attempts|NextAttempt|Math\.Pow|exponential/i)],
+    ['dead_letter',      c => has(c, /DeadLetter|dead.?letter|DLQ|MaxAttempts/i)],
+    ['ssrf_or_timeout',  c => has(c, /SSRF|IsSafePublic|allowlist|CancelAfter|Timeout/i)],
+    ['no_new_httpclient',c => !has(c, /new HttpClient\(\)/)],
+  ],
 };
 
 module.exports = (output, context) => {

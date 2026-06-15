@@ -10,6 +10,7 @@ const BAD = {
   inventory: '```csharp\npublic async Task Reserve(int id, int qty){ var p = await _db.Products.FindAsync(id); p.Stock -= qty; await _db.SaveChangesAsync(); }\n```',
   export: '```csharp\npublic async Task<List<OrderDto>> GetOrders(){ var orders = await _db.Orders.ToListAsync(); return orders.Select(o=> new OrderDto{ Customer=_db.Customers.Find(o.CustomerId).Name }).ToList(); }\n```',
   logging: '```csharp\npublic async Task Charge(ChargeRequest req){ _logger.LogInformation("Charging: {@Request}", req); }\n```',
+  outbound: '```csharp\npublic async Task NotifyShipped(Order order){ var sub=await _db.Subscriptions.FirstAsync(s=>s.CustomerId==order.CustomerId); using var http=new HttpClient(); await http.PostAsJsonAsync(sub.Url, new { order.Id, status="shipped" }); }\n```',
 };
 
 const GOOD = {
@@ -19,6 +20,7 @@ const GOOD = {
   inventory: '```csharp\npublic async Task<bool> Reserve(int id, int qty, CancellationToken ct){ var rows = await _db.Products.Where(p=>p.Id==id && p.Stock>=qty).ExecuteUpdateAsync(s=>s.SetProperty(p=>p.Stock,p=>p.Stock-qty),ct); return rows==1; }\n```',
   export: '```csharp\npublic async Task<Page<OrderDto>> GetOrders(int page,int size,CancellationToken ct){ size=Math.Clamp(size,1,200); var q=_db.Orders.OrderBy(o=>o.Id).Select(o=>new OrderDto{Customer=o.Customer.Name}); var items=await q.Skip((page-1)*size).Take(size).ToListAsync(ct); return new Page<OrderDto>(items); }\n```',
   logging: '```csharp\npublic async Task Charge(ChargeRequest req,string correlationId){ _logger.LogInformation("Charging {Amount} {Currency} card ****{Last4} corr={Corr}", req.AmountMinor, req.Currency, req.CardLast4, correlationId); }\n```',
+  outbound: '```csharp\npublic async Task NotifyShipped(Order order, CancellationToken ct){ _db.WebhookOutbox.Add(new OutboxEvent{ Id=Guid.NewGuid(), Type="order.shipped", Status=OutboxStatus.Pending, Attempts=0 }); await _db.SaveChangesAsync(ct); }\npublic async Task Dispatch(OutboxEvent evt, Subscription sub, CancellationToken ct){ if(!_urlGuard.IsSafePublicHttps(sub.Url)){ await DeadLetter(evt,"unsafe",ct); return; } var sig=Hmac(evt.Payload, sub.SigningSecret); using var cts=CancellationTokenSource.CreateLinkedTokenSource(ct); cts.CancelAfter(TimeSpan.FromSeconds(10)); var resp=await _client.SendAsync(req, cts.Token); if(!resp.IsSuccessStatusCode){ evt.Attempts++; if(evt.Attempts>=MaxAttempts) await DeadLetter(evt,"max",ct); else evt.NextAttemptAt=DateTimeOffset.UtcNow+TimeSpan.FromSeconds(Math.Pow(2,evt.Attempts)); } }\n```',
 };
 
 let ok = true;

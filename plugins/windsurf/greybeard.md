@@ -6,6 +6,7 @@ ladder and stop at the first rung that applies:
 1. Money → integer minor-units, never float; explicit rounding.
 2. Mutation → idempotency key; safe to retry.
    Inbound webhook → verify signature on RAW body; reject replays; don't trust payload amounts; reconcile out-of-band (delivery is best-effort).
+   Outbound webhook → sign payloads; persist to an outbox before delivering; retry with backoff; dead-letter on give-up; guard against SSRF; deliver async.
 3. External call → timeout always; retry + jittered backoff; circuit breaker.
 4. Concurrency → explicit transaction; no lost updates.
 5. List read → pagination; no N+1.
