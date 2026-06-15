@@ -1,10 +1,69 @@
 # Launch copy
 
 Attach `assets/social-before-after.png` to the tweet (and to the HN post as the first comment image if you want).
+The card's WITHOUT side now shows the canonical `0.1 + 0.2 == 0.30000000000000004` float meme, so it matches the X copy below.
 
 ---
 
-## Launch tweet (single)
+## X launch — final cut (use this)
+
+### Single high-impact tweet (post this first, with the image)
+
+> Most "money bugs" aren't bugs. They're `double`.
+>
+> One floating-point multiplication. A million transactions. A ledger that no longer reconciles.
+>
+> I built **greybeard** so your AI agent stops writing junior-dev code.
+>
+> github.com/ManojLingala/greybeard
+
+*(attach `assets/social-before-after.png`)*
+
+### Follow-up thread (reply to your own tweet 1)
+
+**2/ — the pain**
+> Every backend veteran has lived this:
+> → refund calc uses `double`
+> → QA passes. tests pass.
+> → 6 months later finance emails: "the ledger is off by $1,847.23"
+> → you spend a week bisecting commits
+> The bug was written on day one.
+
+**3/ — the lesson**
+> Senior backend habits AI agents skip:
+> • money in minor units (`long`), never `double`
+> • idempotency keys on every mutation
+> • timeouts on every external call
+> • webhooks with retries + signatures (in & out)
+> • no N+1 queries, ever
+> greybeard puts them in your prompt.
+
+**4/ — how it works**
+> greybeard is one portable SKILL.md that bolts onto Claude Code, Codex, Antigravity, Cursor or Copilot.
+> Before writing backend code the agent walks a ladder — money → mutation → external call → concurrency → reads → partial failure → observability — and stops at the first rung that applies.
+> Your agent codes like it's been burned before.
+
+**5/ — proof, honestly**
+> Scored by a deterministic, code-based grader — not an LLM judge, so it can't drift.
+> No-skill baseline ships bugs on 7/7 tasks. greybeard: zero.
+> Validate the grader yourself, no API keys: `node benchmarks/selftest.js`
+
+**6/ — CTA**
+> Free. Open source. MIT.
+> ⭐ github.com/ManojLingala/greybeard
+> If you've ever been the name on a finance ticket — this is for you.
+
+### Posting tips
+
+- Post 9–11 AM ET, Tue/Wed (peak dev-Twitter).
+- Reply to your own tweet 1 with tweet 2 within seconds — early author replies get boosted.
+- Reply to every comment in the first 30–60 min.
+- Pin the thread to your profile.
+- Tag 1–2 aligned dev-tool accounts only if it reads naturally; don't spam.
+
+---
+
+## Launch tweet (single — earlier draft)
 
 > Meet **greybeard** — the skill that makes your AI agent code like a 20-year backend veteran.
 >
