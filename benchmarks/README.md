@@ -5,7 +5,7 @@ that costs real money: **production-class bugs that ship to prod**.
 
 ## What it measures
 
-Six realistic backend tasks, three arms (no skill / ponytail / greybeard), run
+Seven realistic backend tasks, three arms (no skill / ponytail / greybeard), run
 `repeat` times per model. The grader is **deterministic and code-based**
 ([`graders.js`](graders.js)) — it statically inspects the generated C# for each
 bug class. No LLM judge, so results are reproducible and free of judge drift.
@@ -18,6 +18,7 @@ bug class. No LLM judge, so results are reproducible and free of judge drift.
 | Inventory decrement | read-modify-write lost update |
 | Order export | unbounded query + N+1 |
 | Charge logging | secrets/PII written to logs |
+| Outbound webhook | unsigned payload, no outbox, no retry/dead-letter, SSRF |
 
 `score` per task = fraction of safety checks passed (1.0 = ships zero detected bugs).
 
