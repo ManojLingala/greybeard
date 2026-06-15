@@ -1,0 +1,22 @@
+{
+  "name": "greybeard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Make your AI agent code like a 20-year backend veteran \u2014 a portable correctness skill + benchmark.",
+  "license": "MIT",
+  "author": "Manoj Lingala",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node benchmarks/selftest.js",
+    "lint": "eslint \"benchmarks/**/*.js\"",
+    "lint:fix": "eslint \"benchmarks/**/*.js\" --fix",
+    "format": "prettier --check \"benchmarks/**/*.js\"",
+    "format:fix": "prettier --write \"benchmarks/**/*.js\"",
+    "check": "npm run format && npm run lint && npm test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "prettier": "^3.3.3"
+  }
+}

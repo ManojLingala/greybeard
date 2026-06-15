@@ -1,0 +1,23 @@
+name: greybeard ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test:
+    name: lint + format + self-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dev dependencies
+        run: npm install --no-audit --no-fund
+      - name: Format check (prettier)
+        run: npm run format
+      - name: Lint (eslint)
+        run: npm run lint
+      - name: Self-test the deterministic grader
+        run: npm test

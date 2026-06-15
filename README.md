@@ -214,6 +214,12 @@ none encode the discipline that actually keeps payment and distributed systems
 alive in production. greybeard is that discipline, compressed into one file and
 given away free. One veteran's scar tissue, reusable by everyone.
 
+## Contributing
+
+New survivors, grader checks, and plugin syncs are welcome. The grader stays
+deterministic and every change keeps `npm run check` green. See
+[CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
 MIT — see [LICENSE](LICENSE). Use it, fork it, teach your agent with it.
