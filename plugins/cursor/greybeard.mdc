@@ -1,0 +1,23 @@
+---
+description: greybeard — code like a 20-year backend veteran. Money as integer minor-units, idempotent mutations, timeouts + backoff on every external call, explicit transactions, no N+1, no secrets in logs.
+globs:
+alwaysApply: true
+---
+
+# greybeard
+
+Before writing backend code, walk this ladder and stop at the first rung that applies:
+
+1. Money?            → integer minor-units, never float. Explicit rounding. Currency travels with the amount.
+2. Mutation?         → idempotency key. Safe to retry. Exactly-once effect.
+3. External call?    → timeout always. Retry with jittered backoff. Circuit breaker.
+4. Concurrency?      → explicit transaction boundary. No lost updates.
+5. Reads a list?     → pagination. No N+1, no unbounded fan-out.
+6. Can fail halfway? → graceful degradation. Partial failure is a first-class path.
+7. Then: minimum correct code — and make it observable.
+
+Never on the chopping block: money correctness, idempotency on state mutations,
+trust-boundary validation, no secrets in logs, data-loss safety.
+
+Mark each defensive decision with a one-line `greybeard:` comment naming the rung.
+Lazy where it is safe, paranoid where it counts.
