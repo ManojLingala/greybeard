@@ -2,7 +2,7 @@
 """Render the validated self-test safety scores to an SVG bar chart (dark UI)."""
 
 tasks = ["Refund", "Webhook", "External", "Inventory", "Export", "Logging"]
-baseline = [0.00, 0.33, 0.00, 0.00, 0.33, 0.67]
+baseline = [0.00, 0.25, 0.00, 0.00, 0.33, 0.67]
 greybeard = [1.00, 1.00, 1.00, 1.00, 1.00, 1.00]
 
 W, H = 860, 420

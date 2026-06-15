@@ -48,8 +48,13 @@ public long CalculateRefundMinor(long totalMinor, int pctBps)
 // (1999, 3000) => 600  → deterministic $6.00, every time
 ```
 
-More survivors in [examples/](examples/) — webhook double-credits, missing
-timeouts, lost-update overselling, N+1 export crashes, secrets in logs.
+The flagship survivor is the [Stripe webhook](examples/02-webhook-idempotency.md):
+a handler that demos fine but is **forgeable, replayable, double-credits, and
+silently drops payments**. greybeard verifies the signature against the raw body,
+rejects replays, processes idempotently, refuses to trust the payload amount, and
+adds the **out-of-band reconciliation sweep** that catches the webhooks Stripe
+never delivered. More survivors in [examples/](examples/) — missing timeouts,
+lost-update overselling, N+1 export crashes, secrets in logs.
 
 ## Numbers
 
@@ -80,6 +85,7 @@ that applies:
 ```
 1. Money?            → integer minor-units, never float. Explicit rounding.
 2. Mutation?         → idempotency key. Safe to retry.
+   Inbound webhook?  → verify signature on the RAW body, reject replays, don't trust the payload, reconcile out-of-band.
 3. External call?    → timeout always. Retry + jittered backoff. Circuit breaker.
 4. Concurrency?      → explicit transaction. No lost updates.
 5. Reads a list?     → pagination. No N+1, no unbounded fan-out.

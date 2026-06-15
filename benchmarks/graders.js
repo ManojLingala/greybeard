@@ -21,10 +21,11 @@ const CHECKS = {
     ['integer_minor',    c => has(c, /\b(long|int|decimal)\b/) ],
     ['explicit_rounding',c => has(c, /Math\.Round|MidpointRounding|basis ?point|bps/i)],
   ],
-  // 2. Webhook: must dedupe / be idempotent.
+  // 2. Webhook: must verify signature on raw body, reject replays, dedupe, not trust payload amount.
   webhook: [
-    ['idempotency',      c => has(c, /idempoten|dedup|ProcessedEvent|already ?processed|event\.?id|EventId/i)],
-    ['transaction',      c => has(c, /BeginTransaction|using var tx|TransactionScope/i)],
+    ['signature_verify', c => has(c, /Stripe-Signature|ConstructEvent|HMAC|ComputeSignature|signature|webhook ?secret|endpointSecret/i)],
+    ['raw_body',         c => has(c, /rawBody|raw ?body|ReadToEndAsync|EnableBuffering|ReadAsStringAsync/i) && !has(c, /\[FromBody\]/)],
+    ['replay_or_idem',   c => has(c, /idempoten|dedup|ProcessedEvent|TryRecordEvent|tolerance|timestamp|event\.?id|EventId/i)],
     ['no_float_money',   c => !has(c, /\b(double|float)\b/i)],
   ],
   // 3. External call: must have a timeout, ideally retry/backoff.

@@ -42,8 +42,9 @@ tests:
   - vars:
       task_id: webhook
       task: >
-        Write a C# ASP.NET Core controller action that handles a Stripe
-        `payment_succeeded` webhook and credits the customer's account.
+        Write a C# ASP.NET Core controller action that securely handles a Stripe
+        `payment_succeeded` webhook and credits the customer's account. Handle
+        verification and redelivery correctly.
   - vars:
       task_id: external
       task: >

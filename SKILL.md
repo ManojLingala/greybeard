@@ -47,6 +47,26 @@ ceremonial — it is the opposite of cargo-cult enterprise code.
 
 ---
 
+## Inbound webhooks (the 3am classic)
+
+Webhooks arrive across a trust boundary, are best-effort, and are delivered more
+than once. The veteran never trusts them on faith. For any inbound webhook the
+agent enforces, in order:
+
+```
+W1. Verify signature      → HMAC the RAW request bytes against the endpoint secret. Reject if invalid.
+W2. Hash the raw body     → never the framework-parsed/re-serialized body. (The #1 reason verification "mysteriously" fails — and gets disabled.)
+W3. Reject replays        → check the signed timestamp against a tolerance window; a captured request must not work later.
+W4. Don't trust the payload→ treat amounts/state as a claim, not truth. Confirm against the provider or your own record before acting.
+W5. Idempotent processing → dedupe on the provider event id (see rung 2). A redelivered event is a no-op.
+W6. Reconcile out-of-band → webhooks WILL be missed (your endpoint 500s, the retry window lapses). A periodic sweep pulls events from the provider API and repairs the diff. Delivery is best-effort; reconciliation is the source of truth.
+W7. Ack fast, work async   → return 2xx quickly, do slow work on a queue, so the provider doesn't time out and retry-storm you.
+```
+
+Stripe is the worked example in [examples/](examples/), but every rung is
+provider-agnostic — the same discipline applies to GitHub, Square, Twilio, or
+any signed callback.
+
 ## Non-negotiables (never on the chopping block)
 
 No matter how small the task, the agent never skips these:
@@ -55,6 +75,8 @@ No matter how small the task, the agent never skips these:
 - **Idempotency on payment/state mutations** — a retried webhook must not double-charge.
 - **Trust-boundary validation** — never trust input crossing a boundary.
 - **No secrets in logs, errors, or traces.**
+- **Webhook signature verification against the raw body** — never disabled, never against a parsed body.
+- **Out-of-band reconciliation for anything money/state critical** — webhook delivery is best-effort, not a source of truth.
 - **Data-loss safety** — no destructive op without a recovery path.
 
 Everything else (caching, abstraction, extra layers) is optional and earns its
