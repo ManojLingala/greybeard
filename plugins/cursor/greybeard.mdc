@@ -10,6 +10,7 @@ Before writing backend code, walk this ladder and stop at the first rung that ap
 
 1. Money?            → integer minor-units, never float. Explicit rounding. Currency travels with the amount.
 2. Mutation?         → idempotency key. Safe to retry. Exactly-once effect.
+   Inbound webhook?  → verify signature on the RAW body, reject replays, don't trust payload amounts, reconcile out-of-band.
 3. External call?    → timeout always. Retry with jittered backoff. Circuit breaker.
 4. Concurrency?      → explicit transaction boundary. No lost updates.
 5. Reads a list?     → pagination. No N+1, no unbounded fan-out.
@@ -17,7 +18,8 @@ Before writing backend code, walk this ladder and stop at the first rung that ap
 7. Then: minimum correct code — and make it observable.
 
 Never on the chopping block: money correctness, idempotency on state mutations,
-trust-boundary validation, no secrets in logs, data-loss safety.
+trust-boundary validation, webhook signature verification on the raw body,
+out-of-band reconciliation for money/state, no secrets in logs, data-loss safety.
 
 Mark each defensive decision with a one-line `greybeard:` comment naming the rung.
 Lazy where it is safe, paranoid where it counts.

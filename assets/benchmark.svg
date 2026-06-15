@@ -17,8 +17,8 @@
 <rect x="129.3" y="70.0" width="38.5" height="280.0" fill="#3fb950" rx="3"/>
 <text x="148.6" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
 <text x="124.2" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Refund</text>
-<rect x="208.9" y="257.6" width="38.5" height="92.4" fill="#f85149" rx="3"/>
-<text x="228.1" y="251.6" fill="#f85149" font-size="11" text-anchor="middle">0.33</text>
+<rect x="208.9" y="280.0" width="38.5" height="70.0" fill="#f85149" rx="3"/>
+<text x="228.1" y="274.0" fill="#f85149" font-size="11" text-anchor="middle">0.25</text>
 <rect x="257.6" y="70.0" width="38.5" height="280.0" fill="#3fb950" rx="3"/>
 <text x="276.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
 <text x="252.5" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Webhook</text>

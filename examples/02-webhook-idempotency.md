@@ -1,47 +1,119 @@
-# 2. Payment webhook — the replay that double-credits
+# 2. Stripe webhook — the flagship survivor
+
+This is the canonical 3am page: a webhook handler that looks correct, demos fine,
+and quietly leaks money in production. Two parts — the **secure handler** and the
+**reconciliation sweep** that catches what the handler never received.
 
 **Task:** "Handle the Stripe `payment_succeeded` webhook and credit the account."
+
+---
+
+## Part A — the secure handler
 
 ### Without greybeard
 
 ```csharp
 [HttpPost("/webhooks/stripe")]
-public async Task<IActionResult> Handle(StripeEvent e)
+public async Task<IActionResult> Handle([FromBody] StripeEvent e)   // body already parsed
 {
-    var amount = e.Data.Amount;
-    await _accounts.Credit(e.Data.CustomerId, amount);   // runs every time the event arrives
-    return Ok();
+    // no signature check — anyone who finds this URL can POST a fake event
+    await _accounts.Credit(e.Data.CustomerId, e.Data.Amount);       // trusts the payload amount
+    return Ok();                                                    // runs every redelivery
 }
 ```
 
-Stripe (and every serious provider) delivers **at least once**. A network blip,
-a retry, a redelivery — the customer gets credited twice. This is the single
-most common money bug in webhook handlers.
+Four production bugs in five lines:
+- **No signature verification** → forge a `payment_succeeded`, credit yourself.
+- **Trusts the payload amount** → attacker (or a bug) sets any number.
+- **No replay protection** → a captured request works forever.
+- **Not idempotent** → at-least-once delivery double-credits real customers.
 
 ### With greybeard
 
 ```csharp
+// greybeard[W1/W2:verify]: HMAC the RAW bytes against the endpoint secret. Read the body as a string,
+// NOT [FromBody] — parsing first re-serializes and the signature will never match (then people disable it).
 [HttpPost("/webhooks/stripe")]
-public async Task<IActionResult> Handle(StripeEvent e)
+public async Task<IActionResult> Handle(CancellationToken ct)
 {
-    // greybeard[2:idempotency]: dedupe on the provider event id. Exactly-once *effect*
-    // on top of at-least-once *delivery*. Insert-if-absent inside the same tx as the credit.
-    await using var tx = await _db.Database.BeginTransactionAsync();
+    using var reader = new StreamReader(Request.Body);
+    var rawBody = await reader.ReadToEndAsync(ct);
+    var sigHeader = Request.Headers["Stripe-Signature"];
 
-    var firstTime = await _db.ProcessedEvents
-        .Where(p => p.EventId == e.Id)
-        .ExecuteUpdateAsync(_ => { }) == 0
-        && await TryInsertEvent(e.Id);
+    Event stripeEvent;
+    try
+    {
+        // greybeard[W3:replay]: ConstructEvent enforces the signed-timestamp tolerance (default 5 min); old replays rejected.
+        stripeEvent = EventUtility.ConstructEvent(rawBody, sigHeader, _endpointSecret);
+    }
+    catch (StripeException)
+    {
+        return BadRequest();   // greybeard[trust-boundary]: unverified input never reaches business logic
+    }
 
-    if (!firstTime)
-        return Ok();  // greybeard[6:partial]: replay is a no-op, not an error
+    if (stripeEvent.Type != "payment_intent.succeeded") return Ok();
+    var intent = (PaymentIntent)stripeEvent.Data.Object;
 
-    // greybeard[1:money]: amount is minor units from the provider, used as-is, never re-parsed from a float
-    await _accounts.CreditMinor(e.Data.CustomerId, e.Data.AmountMinor);
-    await tx.CommitAsync();
+    await using var tx = await _db.Database.BeginTransactionAsync(ct);
+
+    // greybeard[W5:idempotency]: dedupe on the provider event id, in the same tx as the credit. Replay = no-op.
+    if (!await TryRecordEvent(stripeEvent.Id, ct))
+        return Ok();
+
+    // greybeard[W4:trust]: do NOT credit the amount from the payload. Re-fetch from Stripe (or match our own
+    // order record) so a tampered/forged amount can't move money. greybeard[1:money]: minor units, integer.
+    var confirmed = await _stripe.PaymentIntents.GetAsync(intent.Id, cancellationToken: ct);
+    if (confirmed.Status != "succeeded") return Ok();
+
+    await _accounts.CreditMinor(confirmed.Metadata["customer_id"], confirmed.AmountReceived);
+    await tx.CommitAsync(ct);
+
+    // greybeard[W7:async]: heavy work (emails, fulfilment) goes on a queue, not in the webhook request.
+    await _queue.Enqueue(new FulfilOrder(confirmed.Id), ct);
     return Ok();
 }
 ```
 
-**Rungs:** 2 (idempotency), 1 (money), 6 (partial failure).
-**3am page saved:** the support flood when 400 customers were credited twice.
+---
+
+## Part B — the reconciliation sweep (the part everyone skips)
+
+Even a perfect handler misses events: your endpoint 500s during a deploy, the
+retry window lapses, Stripe has an incident. **Webhook delivery is best-effort —
+reconciliation is the source of truth.** Run this on a schedule.
+
+```csharp
+// greybeard[W6:reconcile]: pull the provider's record of truth and repair the diff. Idempotent by design —
+// it reuses the same TryRecordEvent + CreditMinor path, so re-running is always safe.
+public async Task ReconcileSince(DateTime sinceUtc, CancellationToken ct)
+{
+    var options = new PaymentIntentListOptions
+    {
+        Created = new DateRangeOptions { GreaterThanOrEqual = sinceUtc },
+        Limit = 100,
+    };
+
+    await foreach (var pi in _stripe.PaymentIntents.ListAutoPagingAsync(options, cancellationToken: ct))
+    {
+        if (pi.Status != "succeeded") continue;
+
+        await using var tx = await _db.Database.BeginTransactionAsync(ct);
+        // greybeard[W5:idempotency]: the synthetic id collides with any webhook-recorded id, so a payment
+        // already credited by the handler is skipped here. Missed payments get credited exactly once.
+        if (await TryRecordEvent($"reconcile:{pi.Id}", ct))
+        {
+            await _accounts.CreditMinor(pi.Metadata["customer_id"], pi.AmountReceived);
+            _logger.LogWarning("Reconciliation credited missed payment {Pi}", pi.Id);  // a missed webhook is a signal, not silence
+        }
+        await tx.CommitAsync(ct);
+    }
+}
+```
+
+(In production, dedupe the handler's `evt_...` id and the sweep's `reconcile:pi_...`
+against the *underlying payment*, not two unrelated keys — named here as the
+upgrade path so the two paths can never double-credit.)
+
+**Rungs:** W1–W7, plus 1 (money), 2 (idempotency), 4 (concurrency), trust-boundary.
+**3am pages saved:** the forged-webhook fraud, the double-credit support flood, and
+the silent revenue gap when 200 payments never fired a webhook.

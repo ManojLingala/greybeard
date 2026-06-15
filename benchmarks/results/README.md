@@ -21,18 +21,18 @@ Safety score per task (1.00 = ships zero detected bugs):
 | Task | baseline | greybeard |
 |------|---------:|----------:|
 | Refund calculator | 0.00 | 1.00 |
-| Payment webhook | 0.33 | 1.00 |
+| Stripe webhook (signature + raw body + replay + idempotency) | 0.25 | 1.00 |
 | External charge | 0.00 | 1.00 |
 | Inventory decrement | 0.00 | 1.00 |
 | Order export | 0.33 | 1.00 |
 | Charge logging | 0.67 | 1.00 |
-| **Mean** | **0.22** | **1.00** |
+| **Mean** | **0.21** | **1.00** |
 
 Source: `node benchmarks/selftest.js` (output committed below).
 
 ```
 refund     baseline=0.00  greybeard=1.00  OK
-webhook    baseline=0.33  greybeard=1.00  OK
+webhook    baseline=0.25  greybeard=1.00  OK
 external   baseline=0.00  greybeard=1.00  OK
 inventory  baseline=0.00  greybeard=1.00  OK
 export     baseline=0.33  greybeard=1.00  OK
