@@ -24,16 +24,26 @@ because *their* service was slow. One dependency took out everything.
 // Pipeline registered once (Polly v8); HttpClient reused via IHttpClientFactory (no socket exhaustion).
 public async Task<ChargeResult> Charge(ChargeRequest req, CancellationToken ct)
 {
+    // greybeard[3:external]: the PER-ATTEMPT timeout lives INSIDE _resiliencePipeline (Polly AddTimeout, ~2s),
+    // so one slow try is abandoned and retried. This linked token is the OVERALL budget for the whole retry
+    // sequence — NOT a per-attempt limit. (If 5s out here were your only timeout, it would cancel mid-retry and
+    // silently rob you of the attempts you think you have.)
     using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
-    cts.CancelAfter(TimeSpan.FromSeconds(5));                     // hard ceiling per attempt
+    cts.CancelAfter(TimeSpan.FromSeconds(10));                    // overall ceiling across all attempts
 
-    var resp = await _resiliencePipeline.ExecuteAsync(            // retry(3) + jitter + breaker(5 fails -> open 30s)
-        async token => await _client.PostAsJsonAsync("charge", req, token),
+    var resp = await _resiliencePipeline.ExecuteAsync(           // timeout(2s/try) + retry(3) + jitter + breaker(5 -> open 30s)
+        async token =>
+        {
+            using var msg = new HttpRequestMessage(HttpMethod.Post, "charge") { Content = JsonContent.Create(req) };
+            // greybeard[2:idempotency]: a STABLE key per charge, so the retries above are exactly-once at the
+            // gateway — a retried POST settles the same charge, never a second one.
+            msg.Headers.Add("Idempotency-Key", req.IdempotencyKey);
+            return await _client.SendAsync(msg, token);
+        },
         cts.Token);
 
     resp.EnsureSuccessStatusCode();
     return (await resp.Content.ReadFromJsonAsync<ChargeResult>(cancellationToken: cts.Token))!;
-    // greybeard[2:idempotency]: req carries an Idempotency-Key header so retries don't double-charge
 }
 ```
 

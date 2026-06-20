@@ -82,9 +82,15 @@ public async Task Dispatch(OutboxEvent evt, Subscription sub, CancellationToken 
         {
             evt.Status = OutboxStatus.Delivered;
         }
+        else if ((int)resp.StatusCode is 408 or 429 or >= 500)
+        {
+            await Reschedule(evt, ct);                        // transient (timeout/rate-limit/5xx) -> retry
+        }
         else
         {
-            await Reschedule(evt, ct);                        // 4xx/5xx -> retry path
+            // greybeard[O4:dead-letter]: a permanent 4xx (400/401/403/410) won't get better by retrying —
+            // dead-letter it now so the failure is visible immediately, not five wasted attempts later.
+            await DeadLetter(evt, $"permanent {(int)resp.StatusCode} from subscriber", ct);
         }
     }
     catch (Exception ex) when (ex is HttpRequestException or OperationCanceledException)
@@ -103,8 +109,10 @@ private async Task Reschedule(OutboxEvent evt, CancellationToken ct)
         await DeadLetter(evt, $"max attempts ({MaxAttempts}) exhausted", ct);
         return;
     }
-    // greybeard[O3:backoff]: exponential backoff + jitter so a down consumer doesn't get hammered and recovers cleanly.
-    var delay = TimeSpan.FromSeconds(Math.Pow(2, evt.Attempts)) + Jitter();
+    // greybeard[O3:backoff]: exponential backoff + jitter, CAPPED, so a down consumer recovers cleanly and the
+    // delay can't grow unbounded if MaxAttempts is ever raised.
+    var backoffSeconds = Math.Min(Math.Pow(2, evt.Attempts), 3600);   // cap at 1 hour
+    var delay = TimeSpan.FromSeconds(backoffSeconds) + Jitter();
     evt.NextAttemptAt = DateTimeOffset.UtcNow + delay;
     evt.Status = OutboxStatus.Pending;
 }
