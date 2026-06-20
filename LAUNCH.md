@@ -68,7 +68,7 @@ The card's WITHOUT side now shows the canonical `0.1 + 0.2 == 0.3000000000000000
 
 > Meet **greybeard** — the skill that makes your AI agent paranoid about the right things.
 >
-> It guards the things that actually cause incidents: money in integer minor-units, idempotent writes, timeouts, signed webhooks (in *and* out), no N+1, no secrets in logs.
+> It guards the things that actually cause incidents: money in integer minor-units, idempotent writes, timeouts, signed webhooks (in *and* out), no N+1.
 >
 > Deterministic grader, not an LLM judge. Across Haiku/Sonnet/Opus (189 runs): no-skill 0.75 → greybeard 0.98 safe — and 0.41 → 1.00 on the tasks whose danger is hidden.
 >
