@@ -62,7 +62,7 @@ machinery for problems the code does not have.
 
 1. Before writing, name the rungs that apply to this task.
 2. Write the code, marking each defensive decision with a \`greybeard:\` comment.
-3. After writing, re-read the diff as the veteran: *"What still breaks at 3am?"* Fix it or flag it.
+3. After writing, re-read the diff as greybeard: *"What still breaks at 3am?"* Fix it or flag it.
 
 *Lazy where it is safe. Paranoid where it counts.*`,
 };

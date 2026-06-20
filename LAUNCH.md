@@ -22,7 +22,7 @@ The card's WITHOUT side now shows the canonical `0.1 + 0.2 == 0.3000000000000000
 ### Follow-up thread (reply to your own tweet 1)
 
 **2/ — the pain**
-> Every backend veteran has lived this:
+> Every backend engineer has lived this:
 > → refund calc uses `double`
 > → QA passes. tests pass.
 > → 6 months later finance emails: "the ledger is off by $1,847.23"
@@ -66,7 +66,7 @@ The card's WITHOUT side now shows the canonical `0.1 + 0.2 == 0.3000000000000000
 
 ## Launch tweet (single — earlier draft)
 
-> Meet **greybeard** — the skill that makes your AI agent code like a 20-year backend veteran.
+> Meet **greybeard** — the skill that makes your AI agent paranoid about the right things.
 >
 > ponytail made your agent lazy. greybeard makes it paranoid about the right things: money in integer minor-units, idempotent writes, timeouts, signed webhooks (in *and* out), no N+1, no secrets in logs.
 >
@@ -122,7 +122,7 @@ Run the grader self-test yourself with zero API keys: `node benchmarks/selftest.
 **6/**
 Works with Claude Code, Codex, Antigravity, Cursor, GitHub Copilot, Windsurf, Gemini — one portable SKILL.md, drop it wherever you code.
 
-MIT. Free. One veteran's scar tissue, reusable by everyone.
+MIT. Free. One engineer's scar tissue, reusable by everyone.
 
 github.com/ManojLingala/greybeard
 
@@ -132,7 +132,7 @@ github.com/ManojLingala/greybeard
 
 **Title:**
 
-`Show HN: Greybeard – a skill that makes your AI agent code like a backend veteran`
+`Show HN: Greybeard – a skill that makes your AI agent paranoid about the right things`
 
 **URL:** `https://github.com/ManojLingala/greybeard`
 

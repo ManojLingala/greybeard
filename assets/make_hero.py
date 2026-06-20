@@ -29,7 +29,7 @@ s = []
 s.append(
     f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" '
     f'font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" role="img" '
-    f'aria-label="greybeard — code like a 20-year backend veteran. The seven-rung ladder.">'
+    f'aria-label="greybeard — paranoid about the right things. The seven-rung ladder.">'
 )
 # card
 s.append(f'<rect x="0.5" y="0.5" width="{W-1}" height="{H-1}" rx="14" fill="{BG}" stroke="{CARD_STROKE}"/>')
@@ -41,10 +41,10 @@ s.append(
     f'letter-spacing="-1.5">greybeard</text>'
 )
 s.append(f'<rect x="{LX+2}" y="138" width="316" height="5" rx="2.5" fill="{GREEN}"/>')
-s.append(f'<text x="{LX+2}" y="182" font-size="23" fill="{SUBTLE}">code like a 20-year backend veteran</text>')
+s.append(f'<text x="{LX+2}" y="182" font-size="23" fill="{SUBTLE}">paranoid about the right things</text>')
 s.append(
     f'<text x="{LX+2}" y="212" font-size="15" fill="{MUT}">Lazy where it is safe. '
-    f'Paranoid where it counts.</text>'
+    f'Sharp where it counts.</text>'
 )
 # on-brand code-comment accent in mono
 s.append(

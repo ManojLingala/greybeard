@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/hero.svg" width="860" alt="greybeard — code like a 20-year backend veteran. Walk the seven-rung ladder, in order: money, idempotency, timeouts, concurrency, no N+1, partial failure, observable.">
+  <img src="assets/hero.svg" width="860" alt="greybeard — paranoid about the right things. Walk the seven-rung ladder, in order: money, idempotency, timeouts, concurrency, no N+1, partial failure, observable.">
 </p>
 
 <p align="center">
@@ -11,8 +11,8 @@
 </p>
 
 <p align="center">
-  <strong>One portable <code>SKILL.md</code> that makes your AI agent write backend code like a 20-year veteran.</strong><br>
-  <sub>Drop it into Claude Code, Codex, Cursor, Copilot &amp; more. ponytail made your agent lazy — greybeard makes it paranoid about the right things.</sub>
+  <strong>One portable <code>SKILL.md</code> that makes your AI agent paranoid about the right things.</strong><br>
+  <sub>Money, idempotency, timeouts, concurrency — handled before it ships. ponytail made your agent lazy; greybeard makes it sharp where it counts. Works with Claude Code, Codex, Cursor, Copilot &amp; more.</sub>
 </p>
 
 ---
@@ -247,7 +247,7 @@ enable custom instructions*). Commit the file to share it across the repo.
 The skills topping GitHub right now are mostly generic — verbosity, YAGNI. Almost
 none encode the discipline that actually keeps payment and distributed systems
 alive in production. greybeard is that discipline, compressed into one file and
-given away free. One veteran's scar tissue, reusable by everyone.
+given away free. One engineer's scar tissue, reusable by everyone.
 
 ## Contributing
 

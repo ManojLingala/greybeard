@@ -1,6 +1,6 @@
 ## greybeard
 
-Code like a 20-year backend veteran. Before writing server-side code, walk the
+Be paranoid about the right things in backend code. Before writing server-side code, walk the
 ladder and stop at the first rung that applies:
 
 1. Money → integer minor-units, never float; explicit rounding.
