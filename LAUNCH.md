@@ -1,6 +1,6 @@
 # Launch copy
 
-Attach `assets/social-before-after.png` to the tweet (and to the HN post as the first comment image if you want).
+Attach `assets/social.png` to the tweet (and to the HN post as the first comment image if you want).
 The card's WITHOUT side now shows the canonical `0.1 + 0.2 == 0.30000000000000004` float meme, so it matches the X copy below.
 
 ---
@@ -17,7 +17,7 @@ The card's WITHOUT side now shows the canonical `0.1 + 0.2 == 0.3000000000000000
 >
 > github.com/ManojLingala/greybeard
 
-*(attach `assets/social-before-after.png`)*
+*(attach `assets/social.png`)*
 
 ### Follow-up thread (reply to your own tweet 1)
 
@@ -138,7 +138,7 @@ github.com/ManojLingala/greybeard
 
 **First comment (the "text" of the Show HN):**
 
-> Hi HN. I'm a backend engineer — ~20 years across payments, microservices, and distributed systems. Coding agents are great at the happy path and consistently bad at the things that actually cause incidents: floating-point money, non-idempotent writes, missing timeouts, forgeable/replayable webhooks, lost updates under concurrency, N+1 explosions, secrets in logs.
+> Hi HN. I'm a backend engineer — many years across payments, microservices, and distributed systems. Coding agents are great at the happy path and consistently bad at the things that actually cause incidents: floating-point money, non-idempotent writes, missing timeouts, forgeable/replayable webhooks, lost updates under concurrency, N+1 explosions, secrets in logs.
 >
 > greybeard is a single portable skill (one SKILL.md) that makes an agent walk a short discipline ladder before it writes backend code, and stop at the first rung that applies — money, mutation, external call, concurrency, reads, partial failure, observability. It leans .NET/C# in the examples but the rungs are language-agnostic.
 >
@@ -154,6 +154,6 @@ github.com/ManojLingala/greybeard
 
 - [ ] Flip the repo **public** (Settings → Danger Zone → Change visibility).
 - [ ] Confirm the GitHub Action ran green on the default branch (badge / Actions tab).
-- [ ] Post the tweet with `assets/social-before-after.png` attached.
+- [ ] Post the tweet with `assets/social.png` attached.
 - [ ] Submit the Show HN, then immediately add the first comment above.
 - [ ] (Optional) run the full benchmark on your keys and drop real numbers into `benchmarks/results/`.
