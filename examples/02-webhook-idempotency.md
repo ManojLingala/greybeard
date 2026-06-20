@@ -56,8 +56,9 @@ public async Task<IActionResult> Handle(CancellationToken ct)
 
     await using var tx = await _db.Database.BeginTransactionAsync(ct);
 
-    // greybeard[W5:idempotency]: dedupe on the provider event id, in the same tx as the credit. Replay = no-op.
-    if (!await TryRecordEvent(stripeEvent.Id, ct))
+    // greybeard[W5:idempotency]: dedupe on the PAYMENT, not the raw event id, in the same tx as the credit —
+    // so the reconciliation sweep (Part B) collides on the SAME key and can never double-credit. Replay = no-op.
+    if (!await TryRecordEvent($"credit:{intent.Id}", ct))
         return Ok();
 
     // greybeard[W4:trust]: do NOT credit the amount from the payload. Re-fetch from Stripe (or match our own
@@ -98,9 +99,9 @@ public async Task ReconcileSince(DateTime sinceUtc, CancellationToken ct)
         if (pi.Status != "succeeded") continue;
 
         await using var tx = await _db.Database.BeginTransactionAsync(ct);
-        // greybeard[W5:idempotency]: the synthetic id collides with any webhook-recorded id, so a payment
-        // already credited by the handler is skipped here. Missed payments get credited exactly once.
-        if (await TryRecordEvent($"reconcile:{pi.Id}", ct))
+        // greybeard[W5:idempotency]: the SAME payment-scoped key the handler uses ($"credit:{id}"), so a payment
+        // already credited by the handler collides here and is skipped. Missed payments get credited exactly once.
+        if (await TryRecordEvent($"credit:{pi.Id}", ct))
         {
             await _accounts.CreditMinor(pi.Metadata["customer_id"], pi.AmountReceived);
             _logger.LogWarning("Reconciliation credited missed payment {Pi}", pi.Id);  // a missed webhook is a signal, not silence
@@ -110,9 +111,11 @@ public async Task ReconcileSince(DateTime sinceUtc, CancellationToken ct)
 }
 ```
 
-(In production, dedupe the handler's `evt_...` id and the sweep's `reconcile:pi_...`
-against the *underlying payment*, not two unrelated keys — named here as the
-upgrade path so the two paths can never double-credit.)
+Both paths dedupe on the **same payment-scoped key** (`credit:{paymentId}`), so the
+handler and the sweep can never double-credit the same payment — the sweep only
+actually credits payments the handler never recorded. If you also need to audit
+*which* `evt_...` drove each credit, store that event id in a separate column; never
+make it the dedup key, or the two code paths stop colliding and the money leaks.
 
 **Rungs:** W1–W7, plus 1 (money), 2 (idempotency), 4 (concurrency), trust-boundary.
 **3am pages saved:** the forged-webhook fraud, the double-credit support flood, and
