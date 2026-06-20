@@ -68,7 +68,7 @@ The card's WITHOUT side now shows the canonical `0.1 + 0.2 == 0.3000000000000000
 
 > Meet **greybeard** — the skill that makes your AI agent paranoid about the right things.
 >
-> ponytail made your agent lazy. greybeard makes it paranoid about the right things: money in integer minor-units, idempotent writes, timeouts, signed webhooks (in *and* out), no N+1, no secrets in logs.
+> It guards the things that actually cause incidents: money in integer minor-units, idempotent writes, timeouts, signed webhooks (in *and* out), no N+1, no secrets in logs.
 >
 > Deterministic grader, not an LLM judge. Across Haiku/Sonnet/Opus (189 runs): no-skill 0.75 → greybeard 0.98 safe — and 0.41 → 1.00 on the tasks whose danger is hidden.
 >
@@ -90,9 +90,9 @@ Then it computes `19.99 * 0.30 = 5.997`, your ledger stops reconciling, and fina
 I built a skill that catches this before it ships. Meet greybeard. 🧵
 
 **2/**
-ponytail went viral teaching agents to be lazy (YAGNI, less code).
+Most coding skills push agents to write *less* — YAGNI, keep it minimal.
 
-greybeard is its opposite number for the backend: paranoid about the things that actually page you at 3am.
+greybeard is the opposite for the backend: paranoid about the things that actually page you at 3am.
 
 Money. Idempotency. Timeouts. Webhooks. Concurrency. Observability.
 

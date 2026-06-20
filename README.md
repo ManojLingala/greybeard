@@ -12,7 +12,7 @@
 
 <p align="center">
   <strong>One portable <code>SKILL.md</code> that makes your AI agent paranoid about the right things.</strong><br>
-  <sub>Money, idempotency, timeouts, concurrency — handled before it ships. ponytail made your agent lazy; greybeard makes it sharp where it counts. Works with Claude Code, Codex, Cursor, Copilot &amp; more.</sub>
+  <sub>Money, idempotency, timeouts, concurrency — handled before it ships. Lazy where it's safe, sharp where it counts. Works with Claude Code, Codex, Cursor, Copilot &amp; more.</sub>
 </p>
 
 ---
