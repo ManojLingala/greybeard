@@ -1,23 +1,18 @@
 <p align="center">
-  <img src="assets/logo.png" width="170" alt="greybeard, the backend veteran">
-</p>
-
-<h1 align="center">greybeard</h1>
-
-<p align="center">
-  <em>He has shipped payment systems that move billions. He does not trust your happy path.</em>
+  <img src="assets/hero.svg" width="860" alt="greybeard — code like a 20-year backend veteran. Walk the seven-rung ladder, in order: money, idempotency, timeouts, concurrency, no N+1, partial failure, observable.">
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/github/stars/ManojLingala/greybeard?style=flat-square&color=3fb950&label=stars" alt="Stars">
   <img src="https://img.shields.io/badge/license-MIT-3fb950?style=flat-square" alt="MIT license">
-  <img src="https://img.shields.io/badge/works%20with-7%20agents-3fb950?style=flat-square" alt="Works with 7 agents">
-  <img src="https://img.shields.io/badge/flavor-.NET%20%2F%20C%23-512bd4?style=flat-square" alt=".NET / C#">
+  <img src="https://img.shields.io/badge/works%20with-7%20AI%20agents-3fb950?style=flat-square" alt="Works with 7 AI agents">
+  <img src="https://img.shields.io/badge/rungs-language--agnostic-3fb950?style=flat-square" alt="Language agnostic">
+  <img src="https://img.shields.io/badge/field--tested-Hyperswitch%20%2B%20Medusa-3fb950?style=flat-square" alt="Field-tested on Hyperswitch and Medusa">
 </p>
 
 <p align="center">
-  <strong>The skill that makes your AI agent code like a 20-year backend veteran.</strong><br>
-  <sub>ponytail made your agent lazy. greybeard makes it paranoid — about the right things.</sub>
+  <strong>One portable <code>SKILL.md</code> that makes your AI agent write backend code like a 20-year veteran.</strong><br>
+  <sub>Drop it into Claude Code, Codex, Cursor, Copilot &amp; more. ponytail made your agent lazy — greybeard makes it paranoid about the right things.</sub>
 </p>
 
 ---
@@ -28,7 +23,8 @@ reads it for ten seconds and asks the questions that page you at 3am:
 > *What happens when this runs twice? When the bank times out? When two requests
 > hit the same row? Where did the half-cent go?*
 
-Then it fixes them before they ship.
+Then it fixes them before they ship — marking each defensive choice with a one-line
+`greybeard:` comment that names the 3am page it just saved you.
 
 ## Before / after
 
@@ -58,6 +54,25 @@ never delivered. Its mirror image is the [outbound webhook sender](examples/07-o
 outbox before delivering, retries with backoff, dead-letters on give-up, and
 guards against SSRF. More survivors in [examples/](examples/) — missing timeouts,
 lost-update overselling, N+1 export crashes, secrets in logs.
+
+## It's not hypothetical — it found real bugs
+
+The benchmark below is synthetic, so we pointed greybeard's lens at two of the most
+popular open-source money-movers — [Hyperswitch](https://github.com/juspay/hyperswitch)
+(Rust payments switch) and [Medusa](https://github.com/medusajs/medusa) (commerce
+platform) — with an automated *find → adversarially-verify* pass. **Every one of
+greybeard's seven rungs matched real production code** — including an `f64` surcharge
+calc we reproduced as off by a full minor unit, and payment-path calls with no timeout.
+
+These are well-engineered projects that already do most things right, so most flags come
+back "already handled" (which itself validates the checklist) — we publish only the
+verified residue. We even opened the fixes upstream:
+[hyperswitch#12853](https://github.com/juspay/hyperswitch/pull/12853) ·
+[medusa#15792](https://github.com/medusajs/medusa/pull/15792).
+
+Verified, non-security findings with `file:line` and minimal fixes →
+**[case-studies/](case-studies/)**. (Security-sensitive candidates go to maintainers
+privately, never published.)
 
 ## Numbers
 
@@ -99,19 +114,6 @@ npx promptfoo eval -c benchmarks/promptfooconfig.yaml                # run acros
 Full method, raw numbers, per-task breakdown, and the honest status of every
 figure: [benchmarks/results/](benchmarks/results/) and [BENCHMARK.md](BENCHMARK.md).
 
-## In the wild
-
-The benchmark is synthetic — so we pointed greybeard's lens at two of the most
-popular open-source finance/commerce projects, [Hyperswitch](https://github.com/juspay/hyperswitch)
-(Rust payments switch) and [Medusa](https://github.com/medusajs/medusa) (commerce
-platform), with an automated **find → adversarially-verify** pass. **Every one of
-greybeard's seven rungs matched real production code** — including an `f64` surcharge
-calculation we reproduced as off by a full minor unit. These are well-engineered
-projects that already do most things right; greybeard's value is the residue it still
-finds. Verified, non-security findings with `file:line` and minimal fixes:
-**[case-studies/](case-studies/)**. (Security-sensitive candidates are handled via
-private disclosure, never published.)
-
 ## How it works
 
 Before writing backend code, the agent walks a ladder and stops at the first rung
@@ -130,25 +132,28 @@ that applies:
 ```
 
 Lazy where it is safe, paranoid where it counts. Security, data-loss safety, and
-no-secrets-in-logs are **never** on the chopping block. Examples lean .NET/C# and
-EF Core; the rungs are language-agnostic.
+no-secrets-in-logs are **never** on the chopping block. The examples lean .NET/C# and
+EF Core, but the rungs are language-agnostic — we field-tested them on **Rust**
+(Hyperswitch) and **TypeScript** (Medusa) above.
 
 Full skill: [SKILL.md](SKILL.md).
 
-## Install — configure your own AI
+## Install
 
-greybeard is a single portable skill ([SKILL.md](SKILL.md)). You run it on **your
-own AI** — your Claude, your OpenAI, your Copilot subscription. greybeard never
-sees your keys; it is just instructions your agent loads. Clone once, then wire it
-into whichever agent(s) you use:
+greybeard is a single portable skill ([SKILL.md](SKILL.md)) you run on **your own AI** —
+your Claude, your OpenAI, your Copilot subscription. It never sees your keys; it is just
+instructions your agent loads.
+
+**Fastest path — Claude Code (30 seconds):**
 
 ```bash
-git clone https://github.com/ManojLingala/greybeard
-cd greybeard
+git clone https://github.com/ManojLingala/greybeard && cd greybeard
+mkdir -p ~/.claude/skills && cp -r plugins/claude-code/skills/greybeard ~/.claude/skills/
 ```
 
-The rule of thumb for every agent below: **personal install** (one copy, applies
-everywhere) vs **project install** (commit it to a repo so your whole team gets it).
+Then ask for backend code, or invoke it explicitly with **`/greybeard`**. Using a
+different agent? Each one's setup is below — the rule of thumb is **personal install**
+(one copy, applies everywhere) vs **project install** (commit it so your whole team gets it).
 
 <details open>
 <summary><strong>Claude Code</strong> (Anthropic)</summary>
