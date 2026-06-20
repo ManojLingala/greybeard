@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="860" height="420" fill="#0d1117" rx="10"/>
 <text x="60" y="34" fill="#e6edf3" font-size="20" font-weight="700">Production-bug safety score by task</text>
-<text x="60" y="54" fill="#8b949e" font-size="12">1.00 = ships zero detected bugs. Deterministic grader (graders.js), self-test verified.</text>
+<text x="60" y="54" fill="#8b949e" font-size="12">1.00 = ships zero detected bugs. Real run: haiku, opus, sonnet (n=3/cell), graded by graders.js.</text>
 <line x1="60" y1="350.0" x2="830" y2="350.0" stroke="#21262d" stroke-width="1"/>
 <text x="50" y="354.0" fill="#8b949e" font-size="11" text-anchor="end">0.00</text>
 <line x1="60" y1="280.0" x2="830" y2="280.0" stroke="#21262d" stroke-width="1"/>
@@ -12,40 +12,40 @@
 <text x="50" y="144.0" fill="#8b949e" font-size="11" text-anchor="end">0.75</text>
 <line x1="60" y1="70.0" x2="830" y2="70.0" stroke="#21262d" stroke-width="1"/>
 <text x="50" y="74.0" fill="#8b949e" font-size="11" text-anchor="end">1.00</text>
-<rect x="77.6" y="350.0" width="33.0" height="0.0" fill="#f85149" rx="3"/>
-<text x="94.1" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
+<rect x="77.6" y="123.2" width="33.0" height="226.8" fill="#f85149" rx="3"/>
+<text x="94.1" y="117.2" fill="#f85149" font-size="11" text-anchor="middle">0.81</text>
 <rect x="119.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
 <text x="135.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
 <text x="115.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Refund</text>
-<rect x="187.6" y="280.0" width="33.0" height="70.0" fill="#f85149" rx="3"/>
-<text x="204.1" y="274.0" fill="#f85149" font-size="11" text-anchor="middle">0.25</text>
+<rect x="187.6" y="70.0" width="33.0" height="280.0" fill="#f85149" rx="3"/>
+<text x="204.1" y="64.0" fill="#f85149" font-size="11" text-anchor="middle">1.00</text>
 <rect x="229.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
 <text x="245.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
 <text x="225.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Webhook</text>
-<rect x="297.6" y="350.0" width="33.0" height="0.0" fill="#f85149" rx="3"/>
-<text x="314.1" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
+<rect x="297.6" y="235.2" width="33.0" height="114.8" fill="#f85149" rx="3"/>
+<text x="314.1" y="229.2" fill="#f85149" font-size="11" text-anchor="middle">0.41</text>
 <rect x="339.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
 <text x="355.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
 <text x="335.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">External</text>
-<rect x="407.6" y="350.0" width="33.0" height="0.0" fill="#f85149" rx="3"/>
-<text x="424.1" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
+<rect x="407.6" y="162.4" width="33.0" height="187.6" fill="#f85149" rx="3"/>
+<text x="424.1" y="156.4" fill="#f85149" font-size="11" text-anchor="middle">0.67</text>
 <rect x="449.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
 <text x="465.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
 <text x="445.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Inventory</text>
-<rect x="517.6" y="257.6" width="33.0" height="92.4" fill="#f85149" rx="3"/>
-<text x="534.1" y="251.6" fill="#f85149" font-size="11" text-anchor="middle">0.33</text>
-<rect x="559.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
-<text x="575.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
+<rect x="517.6" y="162.4" width="33.0" height="187.6" fill="#f85149" rx="3"/>
+<text x="534.1" y="156.4" fill="#f85149" font-size="11" text-anchor="middle">0.67</text>
+<rect x="559.4" y="81.2" width="33.0" height="268.8" fill="#3fb950" rx="3"/>
+<text x="575.9" y="75.2" fill="#3fb950" font-size="11" text-anchor="middle">0.96</text>
 <text x="555.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Export</text>
-<rect x="627.6" y="162.4" width="33.0" height="187.6" fill="#f85149" rx="3"/>
-<text x="644.1" y="156.4" fill="#f85149" font-size="11" text-anchor="middle">0.67</text>
+<rect x="627.6" y="81.2" width="33.0" height="268.8" fill="#f85149" rx="3"/>
+<text x="644.1" y="75.2" fill="#f85149" font-size="11" text-anchor="middle">0.96</text>
 <rect x="669.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
 <text x="685.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
 <text x="665.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Logging</text>
-<rect x="737.6" y="350.0" width="33.0" height="0.0" fill="#f85149" rx="3"/>
-<text x="754.1" y="344.0" fill="#f85149" font-size="11" text-anchor="middle">0.00</text>
-<rect x="779.4" y="70.0" width="33.0" height="280.0" fill="#3fb950" rx="3"/>
-<text x="795.9" y="64.0" fill="#3fb950" font-size="11" text-anchor="middle">1.00</text>
+<rect x="737.6" y="142.8" width="33.0" height="207.2" fill="#f85149" rx="3"/>
+<text x="754.1" y="136.8" fill="#f85149" font-size="11" text-anchor="middle">0.74</text>
+<rect x="779.4" y="89.6" width="33.0" height="260.4" fill="#3fb950" rx="3"/>
+<text x="795.9" y="83.6" fill="#3fb950" font-size="11" text-anchor="middle">0.93</text>
 <text x="775.0" y="372.0" fill="#e6edf3" font-size="12" text-anchor="middle">Outbound</text>
 <line x1="60" y1="350.0" x2="830" y2="350.0" stroke="#8b949e" stroke-width="1.5"/>
 <rect x="580" y="34" width="12" height="12" fill="#f85149" rx="2"/>

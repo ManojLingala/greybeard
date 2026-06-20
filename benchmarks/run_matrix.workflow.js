@@ -6,7 +6,7 @@ export const meta = {
 
 // ===================== CONFIG (edit between passes) =====================
 const DIR = '/Users/manojlingala/Projects/greybeard/benchmarks/results/raw-2026-06-20';
-const REPEAT = 1; // how many samples per cell this pass
+const REPEAT = 3; // how many samples per cell this pass (3 -> the published 189-generation run)
 const IDX_START = 0; // starting sample index (bump to accumulate more samples into the same dir)
 const MODELS = ['haiku', 'sonnet', 'opus'];
 const TASKS_ONLY = null; // null = all 7 tasks; or e.g. ['refund','webhook']

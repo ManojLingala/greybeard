@@ -45,7 +45,8 @@ The card's WITHOUT side now shows the canonical `0.1 + 0.2 == 0.3000000000000000
 
 **5/ — proof, honestly**
 > Scored by a deterministic, code-based grader — not an LLM judge, so it can't drift.
-> No-skill baseline ships bugs on 7/7 tasks. greybeard: zero.
+> Across Haiku, Sonnet & Opus (189 runs): no-skill baseline 0.75 safe, greybeard 0.98.
+> Biggest gap is where the danger hides — "charge a card over HTTP": 0.41 → 1.00.
 > Validate the grader yourself, no API keys: `node benchmarks/selftest.js`
 
 **6/ — CTA**
@@ -69,7 +70,7 @@ The card's WITHOUT side now shows the canonical `0.1 + 0.2 == 0.3000000000000000
 >
 > ponytail made your agent lazy. greybeard makes it paranoid about the right things: money in integer minor-units, idempotent writes, timeouts, signed webhooks (in *and* out), no N+1, no secrets in logs.
 >
-> Deterministic grader, not an LLM judge. Baseline ships bugs on 7/7 tasks; greybeard ships zero.
+> Deterministic grader, not an LLM judge. Across Haiku/Sonnet/Opus (189 runs): no-skill 0.75 → greybeard 0.98 safe — and 0.41 → 1.00 on the tasks whose danger is hidden.
 >
 > Works with Claude Code, Codex, Antigravity, Cursor & Copilot. MIT.
 >
@@ -114,7 +115,7 @@ greybeard verifies the raw-body signature, rejects replays, stays idempotent, di
 **5/**
 Numbers, honestly: 7 backend tasks, scored by a **deterministic code-based grader** (not an LLM judge, so it can't drift).
 
-No-skill baseline averages 0.18 safe. greybeard averages 1.00.
+Real run across Haiku, Sonnet & Opus (189 generations): no-skill baseline averages 0.75 safe, greybeard 0.98 — and 0.41 → 1.00 where the danger is hidden (a plain "charge a card over HTTP").
 
 Run the grader self-test yourself with zero API keys: `node benchmarks/selftest.js`
 
@@ -145,7 +146,7 @@ github.com/ManojLingala/greybeard
 >
 > It installs into Claude Code, Codex, Antigravity, Cursor, GitHub Copilot, Windsurf, and Gemini — per-agent instructions are in the README. MIT licensed.
 >
-> Caveat I'll state up front: the headline 0.18 → 1.00 figures come from a small sample run plus the grader self-test fixtures, not an exhaustive multi-model matrix — the repo says so and gives you the exact command to reproduce or extend it on your own keys. I'd genuinely like feedback on the grader's bug-class checks: what production failure modes am I missing that you'd add as a rung?
+> On honesty: the headline numbers are a real run across three Claude models (Haiku/Sonnet/Opus, 3 samples each, 189 generations) — no-skill baseline 0.75, greybeard 0.98 — with every raw generation committed so you can re-grade them. It is not yet an exhaustive cross-vendor matrix, and the grader is static bug-class checks, not a proof of correctness; the repo states exactly what ran and gives you the command to reproduce or extend it on your own keys. I'd genuinely like feedback on the grader's checks: what production failure modes am I missing that you'd add as a rung?
 
 ---
 

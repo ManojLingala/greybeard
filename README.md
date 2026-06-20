@@ -62,25 +62,42 @@ lost-update overselling, N+1 export crashes, secrets in logs.
 ## Numbers
 
 Seven everyday backend tasks (refund, inbound webhook, gateway call, inventory
-decrement, order export, charge logging, outbound webhook), graded by a **deterministic, code-based
-scorer** — not an LLM judge, so it can't drift. Score = fraction of
-production-bug checks passed (1.00 = ships zero detected bugs).
+decrement, order export, charge logging, outbound webhook), graded by a
+**deterministic, code-based scorer** — not an LLM judge, so it can't drift. Score
+= fraction of production-bug checks passed (1.00 = ships zero detected bugs).
 
 <p align="center">
-  <img src="assets/benchmark.svg" width="820" alt="greybeard scores 1.00 on every task; the no-skill baseline ships bugs on all seven">
+  <img src="assets/benchmark.svg" width="820" alt="Per-task safety scores: greybeard near 1.00 on every task; the no-skill baseline trails most where a task's danger is hidden">
 </p>
 
-The no-skill baseline averages **0.18** safe; greybeard averages **1.00** on the
-validated grader self-test. Reproduce it yourself:
+Real run across three Claude models — **Haiku, Sonnet, Opus**, three samples each,
+**189 generations** ([raw generations + full report](benchmarks/results/)):
+
+| Model | no skill | greybeard |
+|-------|---------:|----------:|
+| Haiku  | 0.61 | **0.97** |
+| Sonnet | 0.73 | **1.00** |
+| Opus   | 0.91 | **0.98** |
+| **All** | **0.75** | **0.98** |
+
+greybeard drives every model to ~1.00. The gain is biggest exactly where the
+naive ask hides the danger — *"charge a card over HTTP"* averages **0.41** without
+the skill and **1.00** with it — and biggest on the cheaper models (Haiku
+**+0.36**, vs Opus **+0.07**, which already has the instincts). The "just write the
+minimum" YAGNI arm actually scores *below* no-skill on Sonnet and Opus: told to be
+lazy, the model strips the guards. greybeard is the opposite bias — paranoid where
+it counts.
+
+Reproduce it yourself:
 
 ```bash
-node benchmarks/selftest.js                              # validate the grader (no keys needed)
-npx promptfoo eval -c benchmarks/promptfooconfig.yaml    # run across your own models
+node benchmarks/selftest.js                                          # validate the grader (no keys)
+node benchmarks/grade_batch.js benchmarks/results/raw-2026-06-20/    # re-grade the committed run
+npx promptfoo eval -c benchmarks/promptfooconfig.yaml                # run across your own models/keys
 ```
 
-Full step-by-step instructions for running the eval on **your own keys** are in
-[BENCHMARK.md](BENCHMARK.md). Method, raw numbers, and the honest status of every
-figure: [benchmarks/](benchmarks/).
+Full method, raw numbers, per-task breakdown, and the honest status of every
+figure: [benchmarks/results/](benchmarks/results/) and [BENCHMARK.md](BENCHMARK.md).
 
 ## How it works
 

@@ -37,7 +37,11 @@ from the published sample run live in [results/](results/).
 
 ## Honesty note
 
-The headline numbers in the top-level README come from a **small sample run**
-(documented in [results/](results/)) — run count and models are stated there.
-Re-run the command above to verify or extend it. If your numbers differ, open an
-issue with your config; the grader is the contract.
+The headline numbers in the top-level README come from a **real multi-model run** —
+Haiku, Sonnet, and Opus, 3 samples per (model × arm × task), 189 generations,
+graded by the deterministic `graders.js`. The raw generations and the full graded
+report are committed in [results/](results/), so you can re-grade them yourself
+with `node benchmarks/grade_batch.js benchmarks/results/raw-2026-06-20/`. Models
+and run count are stated there. Re-run the eval on your own keys to verify or
+extend it; if your numbers differ, open an issue with your config — the grader is
+the contract.

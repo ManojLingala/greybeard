@@ -118,9 +118,11 @@ real and not grader artifacts.
 
 Each task scores **0.0–1.0** = the fraction of that task's production-bug checks that
 passed (`1.00` = ships zero detected bugs). A model's arm score is the mean across the
-seven tasks. In our self-test fixtures the spread is stark — baseline ≈ **0.18**,
-greybeard = **1.00** — but **your** numbers are the ones that count. Re-run, screenshot
-the grid, and you have a defensible benchmark.
+seven tasks. In our real multi-model run (Haiku/Sonnet/Opus, 3 samples each — see
+[`benchmarks/results/`](benchmarks/results/)) the no-skill baseline averages **0.75**
+and greybeard **0.98**, with the widest gap on tasks whose danger is hidden (external
+charge: **0.41 → 1.00**). But **your** numbers are the ones that count. Re-run,
+screenshot the grid, and you have a defensible benchmark.
 
 | Task        | What a failure means |
 |-------------|----------------------|
