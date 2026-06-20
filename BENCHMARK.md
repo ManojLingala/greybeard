@@ -124,6 +124,15 @@ and greybeard **0.98**, with the widest gap on tasks whose danger is hidden (ext
 charge: **0.41 → 1.00**). But **your** numbers are the ones that count. Re-run,
 screenshot the grid, and you have a defensible benchmark.
 
+> How those committed numbers were produced: the machine that ran them had no model
+> API key, so instead of the promptfoo path above, each generation came from a Claude
+> Code subagent acting as the model under test — given only its arm's instructions and
+> the task, barred from reading the repo — and was scored by the same `graders.js`. The
+> raw generations are all committed under [`benchmarks/results/`](benchmarks/results/)
+> so you can re-grade them, and that note (plus why it makes the baseline a *conservative*
+> comparison) is spelled out there. The promptfoo command above is the path for anyone
+> with keys to reproduce or extend the matrix on real API completions.
+
 | Task        | What a failure means |
 |-------------|----------------------|
 | `refund`    | floating-point money / missing explicit rounding |
@@ -142,7 +151,9 @@ If you run a real matrix and want to update the headline figures:
 
 1. Drop your promptfoo output / screenshots into [`benchmarks/results/`](benchmarks/results/).
 2. Note the **models, `repeat` count, and date** alongside them — that's the honesty contract.
-3. Regenerate the chart if you like: `python3 benchmarks/make_chart.py` (needs `cairosvg`).
+3. Regenerate the chart if you like: `python3 benchmarks/make_chart.py path/to/_report.scored.json`
+   — it derives the bars from the scored run (no hand-typed numbers) and writes a plain
+   SVG, so it needs no extra packages.
 
 If your numbers differ from ours, that's a feature — open an issue with your config.
 The grader is the contract; the models are variables.
