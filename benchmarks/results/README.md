@@ -65,9 +65,32 @@ seven tasks.
   *below* baseline on Sonnet (0.67 vs 0.73) and Opus (0.83 vs 0.91): told to be
   lazy, the model strips the guards. greybeard is the opposite kind of bias.
 
+### Is greybeard just commenting more? (anti-gaming check)
+
+Fair objection: greybeard writes more `greybeard:` comments, and some presence
+checks match a *word* (HMAC, retry, idempoten…) that could appear in a comment. So
+re-grade every generation with **all comments stripped** — even presence checks
+then see only real code (`node benchmarks/robustness_check.js`):
+
+| arm | normal | comments stripped | delta |
+|-----|-------:|------------------:|------:|
+| baseline  | 0.751 | 0.683 | −0.069 |
+| ponytail  | 0.701 | 0.665 | −0.036 |
+| greybeard | 0.984 | 0.939 | −0.045 |
+
+greybeard barely moves (−0.045), and **greybeard with no comments (0.939) still
+beats baseline with its comments (0.751) by +0.19.** Baseline actually loses
+*more* to comment-stripping than greybeard does. The lead is implemented
+safeguards, not narration.
+
 These numbers come from Claude models specifically. Run the eval on your own
 models/keys (see [`../../BENCHMARK.md`](../../BENCHMARK.md)) and the grader will
 score them by the exact same contract.
+
+> One more honesty note on the harness: the subjects are Claude Code subagents,
+> whose own system prompt already nudges toward careful code — so the *baseline*
+> here is, if anything, inflated relative to a raw API completion. That makes
+> greybeard's measured lift a conservative lower bound, not an upper one.
 
 ## Validated grader self-test (reproducible now, no keys)
 
