@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Render the validated self-test safety scores to an SVG bar chart (dark UI)."""
 
+import os
+
 tasks = ["Refund", "Webhook", "External", "Inventory", "Export", "Logging", "Outbound"]
 baseline = [0.00, 0.25, 0.00, 0.00, 0.33, 0.67, 0.00]
 greybeard = [1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00]
@@ -58,5 +60,6 @@ s.append(f'<rect x="{lx+140}" y="{ly-10}" width="12" height="12" fill="{C_GREY}"
 s.append(f'<text x="{lx+158}" y="{ly}" fill="{FG}" font-size="12">greybeard</text>')
 
 s.append('</svg>')
-open("assets/benchmark.svg", "w").write("\n".join(s))
-print("wrote assets/benchmark.svg")
+out = os.path.join(os.path.dirname(__file__), "..", "assets", "benchmark.svg")
+open(out, "w").write("\n".join(s))
+print("wrote", os.path.relpath(out))

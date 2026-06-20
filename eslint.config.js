@@ -3,9 +3,13 @@
 const js = require('@eslint/js');
 
 module.exports = [
+  // Workflow DSL scripts are run by the Claude Code Workflow engine, not Node —
+  // they use module syntax + injected globals (agent/parallel/log). Not lint surface.
+  { ignores: ['benchmarks/**/*.workflow.js'] },
   js.configs.recommended,
   {
     files: ['benchmarks/**/*.js'],
+    ignores: ['benchmarks/**/*.workflow.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'commonjs',

@@ -36,7 +36,7 @@ node benchmarks/selftest.js
 This feeds the deterministic grader a set of known-**BAD** and known-**GOOD** C#
 snippets for every task and asserts the grader scores them correctly (BAD → low,
 GOOD → 1.00). If every line prints `OK`, the scorer is trustworthy. This is exactly
-what the [GitHub Action](.github/workflows/selftest.yml) runs on every push, so you
+what the [GitHub Action](.github/workflows/ci.yml) runs on every push, so you
 get the same green check we do.
 
 > The grader (`benchmarks/graders.js`) is **code-based, not an LLM judge** — it
