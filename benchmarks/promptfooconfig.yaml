@@ -25,7 +25,8 @@ providers:
   - id: anthropic:messages:claude-sonnet-4-6
   - id: anthropic:messages:claude-opus-4-8
 
-# Each task is run REPEAT times per (provider x prompt); we report the median.
+# Each task is run REPEAT times per (provider x prompt); the grader reports the mean.
+# The committed sample run (benchmarks/results/) used repeat: 3 (189 generations).
 defaultTest:
   options:
     repeat: 10
