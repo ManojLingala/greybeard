@@ -99,6 +99,19 @@ npx promptfoo eval -c benchmarks/promptfooconfig.yaml                # run acros
 Full method, raw numbers, per-task breakdown, and the honest status of every
 figure: [benchmarks/results/](benchmarks/results/) and [BENCHMARK.md](BENCHMARK.md).
 
+## In the wild
+
+The benchmark is synthetic — so we pointed greybeard's lens at two of the most
+popular open-source finance/commerce projects, [Hyperswitch](https://github.com/juspay/hyperswitch)
+(Rust payments switch) and [Medusa](https://github.com/medusajs/medusa) (commerce
+platform), with an automated **find → adversarially-verify** pass. **Every one of
+greybeard's seven rungs matched real production code** — including an `f64` surcharge
+calculation we reproduced as off by a full minor unit. These are well-engineered
+projects that already do most things right; greybeard's value is the residue it still
+finds. Verified, non-security findings with `file:line` and minimal fixes:
+**[case-studies/](case-studies/)**. (Security-sensitive candidates are handled via
+private disclosure, never published.)
+
 ## How it works
 
 Before writing backend code, the agent walks a ladder and stops at the first rung
