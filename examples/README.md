@@ -1,7 +1,7 @@
 # Survivors
 
 Real bugs a no-skill agent ships, and what greybeard does instead. Each one is a
-3am page the veteran already lived through.
+3am page greybeard already lived through.
 
 | # | Task | The bug the baseline ships | greybeard |
 |--:|------|----------------------------|-----------|

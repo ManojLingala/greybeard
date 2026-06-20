@@ -31,7 +31,7 @@ d = ImageDraw.Draw(img)
 
 # Title
 d.text((50, 38), "greybeard", font=font(40, bold=True), fill=FG)
-d.text((50, 92), "Make your AI agent code like a 20-year backend veteran.", font=font(22), fill=MUT)
+d.text((50, 92), "Make your AI agent paranoid about the right things.", font=font(22), fill=MUT)
 
 # logo (optional, top-right)
 try:

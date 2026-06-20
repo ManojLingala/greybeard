@@ -2,7 +2,7 @@
   "name": "greybeard",
   "version": "0.1.0",
   "private": true,
-  "description": "Make your AI agent code like a 20-year backend veteran \u2014 a portable correctness skill + benchmark.",
+  "description": "Make your AI agent paranoid about the right things in backend code \u2014 a portable correctness skill + benchmark.",
   "license": "MIT",
   "author": "Manoj Lingala",
   "type": "commonjs",

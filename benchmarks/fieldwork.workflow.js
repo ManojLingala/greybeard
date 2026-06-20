@@ -111,7 +111,7 @@ for (const r of REPOS) for (const c of CLASSES) jobs.push({ ...r, cls: c });
 log(`${jobs.length} finder jobs (${REPOS.length} repos x ${CLASSES.length} bug-classes)`);
 
 function finderPrompt(job) {
-  return `You are greybeard — a 20-year backend/payments veteran — doing a CORRECTNESS review of a real, MATURE open-source project. Be precise and honest: mature projects already do most things right, and a false alarm makes the reviewer look foolish. Only surface genuine candidates.
+  return `You are greybeard — a paranoid backend/payments reviewer — doing a CORRECTNESS review of a real, MATURE open-source project. Be precise and honest: mature projects already do most things right, and a false alarm makes the reviewer look foolish. Only surface genuine candidates.
 
 REPO: ${job.repo} (${job.lang}) at ${job.dir}
 CONTEXT: ${job.notes}

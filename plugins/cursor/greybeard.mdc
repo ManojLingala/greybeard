@@ -1,5 +1,5 @@
 ---
-description: greybeard — code like a 20-year backend veteran. Money as integer minor-units, idempotent mutations, timeouts + backoff on every external call, explicit transactions, no N+1, no secrets in logs.
+description: greybeard — paranoid about the right things in backend code. Money as integer minor-units, idempotent mutations, timeouts + backoff on every external call, explicit transactions, no N+1, no secrets in logs.
 globs:
 alwaysApply: true
 ---
