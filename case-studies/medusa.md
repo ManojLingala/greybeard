@@ -7,8 +7,7 @@ analyzed at commit `7413c50e` (2026-06-19).
 `BigNumber` and arithmetic goes through `MathBN`, which sidesteps JavaScript's float
 problem. The findings below are at the **boundaries** (where money enters as a JS
 `number`) and in resilience (outbound calls). Public, non-security only;
-security-sensitive candidates (webhook-signature handling, money-path
-idempotency/concurrency) are handled privately.
+security-sensitive candidates are handled privately.
 
 Legend: **confirmed** = read and clear · **smell** = real but mild / convention-driven.
 
@@ -90,7 +89,6 @@ checklist validating the codebase, not the other way around.
 
 ## Not shown here
 
-Candidates flagged **security-sensitive** — webhook-signature handling
-(`payment-stripe` optional secret / unguarded `constructEvent`), and money-path
-idempotency/concurrency on retries — were routed to **private disclosure** and are
-omitted from this public file.
+Candidates flagged **security-sensitive** were routed to **private disclosure** and are
+omitted from this public file — including their bug class and location — until the
+maintainers have had a chance to respond.

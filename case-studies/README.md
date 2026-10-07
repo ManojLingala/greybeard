@@ -40,24 +40,23 @@ adversarial verify (1 skeptic per candidate, instructed to REFUTE)
 └─────────────────────────────────────────────────────────────┘
 ```
 
-We are **not** publishing the security-sensitive candidates (webhook-signature gaps,
-SSRF, secrets-in-logs, money-path idempotency/concurrency). Those go to the
-maintainers privately, never a public issue — see [Method & honesty](#method--honesty).
+We are **not** publishing the security-sensitive candidates — not their location, not
+their bug class, not which project they belong to. Those go to the maintainers
+privately, never a public issue — see [Method & honesty](#method--honesty).
 
 ## Every greybeard rung fired in real code
 
 The strongest validation of the benchmark: each rung that catches a synthetic bug
-also matched real production code.
+also produced candidates in real production code. Only the rungs whose findings are
+pure correctness/resilience issues are itemised below; everything else is being
+disclosed privately and is omitted entirely (see [Method & honesty](#method--honesty)).
 
 | Rung | greybeard says | Showed up in the wild as |
 |-----:|----------------|--------------------------|
 | 1 money | integer minor-units, never float | `f64` surcharge math off by 1–2 minor units; money cast to JS `number` at boundaries |
-| 2 idempotency | safe to retry, dedupe redelivery | webhook handlers re-applying state on redelivery *(security-sensitive → private)* |
 | 3 external | timeout always | `reqwest`/`fetch` clients with **no request timeout** on payment hot paths |
-| 4 concurrency | no lost updates | read-modify-write on stock/capture totals *(security-sensitive → private)* |
 | 5 reads / N+1 | no query-in-loop | DB query inside a `for` loop in a routing-config path |
-| non-neg | no secrets in logs | raw connector responses / payloads logged in error paths *(→ private)* |
-| W/O | verify in, sign + SSRF-guard out | optional webhook secret; outbound URL without SSRF allowlist *(→ private)* |
+| other rungs | — | withheld pending private disclosure |
 
 ## Public, non-security findings (deep-verified by hand)
 
@@ -96,9 +95,10 @@ payments router handling real money.
   confirmation" rather than "confirmed."
 - **Security ≠ correctness.** We route anything where public disclosure could aid an
   attacker (signature bypass, SSRF, secret leak, money-path races) to **private
-  disclosure only**. The findings shown here are pure correctness/resilience issues
-  (rounding, timeouts, N+1) — safe to discuss in the open and the kind of thing that
-  lands as a routine PR.
+  disclosure only** — and we publish nothing about those candidates, not even their
+  bug class or which project they are in, until the maintainers have responded. The
+  findings shown here are pure correctness/resilience issues (rounding, timeouts,
+  N+1) — safe to discuss in the open and the kind of thing that lands as a routine PR.
 - **No drive-by issues.** Nothing here was filed on the upstream repos. We intend to
   offer fixes as respectful, well-argued PRs — never auto-generated issue spam.
 - **Reproducible.** Re-run the whole pass with

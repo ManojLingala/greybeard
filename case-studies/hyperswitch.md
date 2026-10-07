@@ -112,6 +112,6 @@ colder paths (migration; a cache-backed lookup). Lower traffic, same fix.
 
 ## Not shown here
 
-Additional candidates flagged **security-sensitive** (webhook idempotency on
-money-moving paths, outbound-webhook SSRF, raw payload/response logging) were found and
-routed to **private disclosure** — they are deliberately omitted from this public file.
+Additional candidates flagged **security-sensitive** were routed to **private
+disclosure**. They are deliberately omitted from this public file — including their
+bug class and location — until the maintainers have had a chance to respond.

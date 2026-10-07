@@ -7,18 +7,25 @@ export const meta = {
   ],
 };
 
+// Where the clones of the target repos live. Default: a `greybeard-fieldwork/` folder
+// next to this checkout (../greybeard-fieldwork/<repo>). Override via Workflow args:
+//   args: { fieldworkRoot: '/abs/path/to/clones' }
+// Relative paths are resolved by the agents against the working directory (this repo's root).
+const cfg = (typeof args === 'object' && args) || {};
+const FIELDWORK_ROOT = cfg.fieldworkRoot || '../greybeard-fieldwork';
+
 const REPOS = [
   {
     repo: 'hyperswitch',
     lang: 'Rust',
-    dir: '/Users/manojlingala/Projects/greybeard-fieldwork/hyperswitch',
+    dir: `${FIELDWORK_ROOT}/hyperswitch`,
     notes:
       'Payments switch/router (Juspay). Uses a MinorUnit type widely (disciplined). Outbound calls go to many payment "connectors". Known hotspots to examine: crates/common_utils/src/types.rs (f64 percentage/surcharge math), reqwest client construction (timeout coverage), webhook ingestion from connectors.',
   },
   {
     repo: 'medusa',
     lang: 'TypeScript',
-    dir: '/Users/manojlingala/Projects/greybeard-fieldwork/medusa',
+    dir: `${FIELDWORK_ROOT}/medusa`,
     notes:
       'Commerce framework. Uses BigNumber/MathBN for stored money (disciplined) but money sometimes ENTERS workflows typed as `amount: number` (JS float64). Modules of interest: packages/core/core-flows/src (order/payment/refund/inventory workflows), packages/modules (payment, inventory, locking, order).',
   },
@@ -113,7 +120,7 @@ log(`${jobs.length} finder jobs (${REPOS.length} repos x ${CLASSES.length} bug-c
 function finderPrompt(job) {
   return `You are greybeard — a paranoid backend/payments reviewer — doing a CORRECTNESS review of a real, MATURE open-source project. Be precise and honest: mature projects already do most things right, and a false alarm makes the reviewer look foolish. Only surface genuine candidates.
 
-REPO: ${job.repo} (${job.lang}) at ${job.dir}
+REPO: ${job.repo} (${job.lang}) at ${job.dir} (a relative path is relative to your working directory)
 CONTEXT: ${job.notes}
 
 BUG CLASS TO HUNT — greybeard rung ${job.cls.rung}:
@@ -125,7 +132,7 @@ Search the repo (grep/read under ${job.dir}; ignore tests, examples, generated c
 function verifyPrompt(c, job) {
   return `You are a SKEPTIC verifying a code-review finding against a real, mature project. Your default is to REFUTE it — assume the maintainers knew what they were doing until the code proves otherwise. Be rigorous and fair.
 
-REPO: ${job.repo} (${job.lang}) at ${job.dir}
+REPO: ${job.repo} (${job.lang}) at ${job.dir} (a relative path is relative to your working directory)
 BUG CLASS: greybeard rung ${job.cls.rung} — ${job.cls.desc}
 
 CANDIDATE FINDING:

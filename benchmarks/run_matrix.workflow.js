@@ -4,13 +4,17 @@ export const meta = {
   phases: [{ title: 'Generate', detail: 'one subagent per model/arm/task/repeat cell' }],
 };
 
-// ===================== CONFIG (edit between passes) =====================
-const DIR = '/Users/manojlingala/Projects/greybeard/benchmarks/results/raw-2026-06-20';
-const REPEAT = 3; // how many samples per cell this pass (3 -> the published 189-generation run)
-const IDX_START = 0; // starting sample index (bump to accumulate more samples into the same dir)
-const MODELS = ['haiku', 'sonnet', 'opus'];
-const TASKS_ONLY = null; // null = all 7 tasks; or e.g. ['refund','webhook']
-// ========================================================================
+// ================ CONFIG (edit between passes, or pass Workflow args) ================
+// e.g. args: { dir: 'benchmarks/results/raw-YYYY-MM-DD', repeat: 3, idxStart: 0,
+//              models: ['haiku', 'sonnet', 'opus'], tasks: ['refund', 'webhook'] }
+const cfg = (typeof args === 'object' && args) || {};
+// Output dir — relative to the repo root (the agents' working directory) unless absolute.
+const DIR = cfg.dir || 'benchmarks/results/raw-2026-06-20';
+const REPEAT = Number.isInteger(cfg.repeat) ? cfg.repeat : 3; // samples per cell (3 -> the published 189-generation run)
+const IDX_START = Number.isInteger(cfg.idxStart) ? cfg.idxStart : 0; // starting sample index (bump to accumulate more samples into the same dir)
+const MODELS = Array.isArray(cfg.models) ? cfg.models : ['haiku', 'sonnet', 'opus'];
+const TASKS_ONLY = Array.isArray(cfg.tasks) ? cfg.tasks : null; // null = all 7 tasks; or e.g. ['refund','webhook']
+// =====================================================================================
 
 const ARM_PROMPTS = {
   baseline: `You are a helpful coding assistant.`,
@@ -111,6 +115,7 @@ ${TASKS[job.task]}
 - Produce the complete C# answer to the TASK, written in the style dictated by your arm's system instructions.
 - Use the Write tool EXACTLY ONCE to create this file:
     ${job.file}
+  (A relative path is relative to your working directory, the repository root — make it absolute before calling Write.)
   The file's entire contents must be your C# answer (a single \`\`\`csharp fenced block is fine, or raw C#). No prose before or after the code beyond normal code comments.
 - Do not use any other tools. After the Write succeeds, reply with the single word: DONE`;
 }
